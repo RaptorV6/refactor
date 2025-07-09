@@ -76,23 +76,27 @@ export const OjpCalendarGrid = component$<OjpCalendarGridProps>(
 
     const structure = useComputed$(() => {
       const result: StructureItem[] = [];
-      dates.forEach((date, dayIndex) => {
-        result.push({
-          date: date.date,
-          dayIndex,
-          dayName: dayNames[dayIndex] || dayNames[0],
-          type: "day",
-        });
-
-        saly.forEach((sal) => {
+      if (Array.isArray(dates)) {
+        dates.forEach((date, dayIndex) => {
           result.push({
             date: date.date,
             dayIndex,
-            sal,
-            type: "sal",
+            dayName: dayNames[dayIndex] || dayNames[0],
+            type: "day",
           });
+
+          if (Array.isArray(saly)) {
+            saly.forEach((sal) => {
+              result.push({
+                date: date.date,
+                dayIndex,
+                sal,
+                type: "sal",
+              });
+            });
+          }
         });
-      });
+      }
       return result;
     });
 
